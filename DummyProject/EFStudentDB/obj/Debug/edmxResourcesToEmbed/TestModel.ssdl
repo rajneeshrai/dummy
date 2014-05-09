@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="TestModelStoreContainer">
+    <EntitySet Name="tblAddress" EntityType="TestModel.Store.tblAddress" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblClass" EntityType="TestModel.Store.tblClass" store:Type="Tables" store:Schema="dbo" store:Name="tblClass">
+      <DefiningQuery>SELECT 
+      [tblClass].[ID] AS [ID], 
+      [tblClass].[Name] AS [Name], 
+      [tblClass].[CreatedDate] AS [CreatedDate], 
+      [tblClass].[CreatedBy] AS [CreatedBy], 
+      [tblClass].[Active] AS [Active]
+      FROM [dbo].[tblClass] AS [tblClass]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tblLocation" EntityType="TestModel.Store.tblLocation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblPerson" EntityType="TestModel.Store.tblPerson" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblStudent" EntityType="TestModel.Store.tblStudent" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_tblStudent_tblAddress" Association="TestModel.Store.FK_tblStudent_tblAddress">
+      <End Role="tblAddress" EntitySet="tblAddress" />
+      <End Role="tblStudent" EntitySet="tblStudent" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tblAddress">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="HouseNo" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="Locality" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="City" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="District" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="State" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'Test.dbo.tblClass' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="tblClass">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="CreatedDate" />
+      <PropertyRef Name="CreatedBy" />
+      <PropertyRef Name="Active" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblLocation">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Code" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblPerson">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="FatherName" Type="varchar" MaxLength="50" />
+    <Property Name="MotherName" Type="varchar" MaxLength="50" />
+    <Property Name="Age" Type="int" Nullable="false" />
+    <Property Name="Gender" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblStudent">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PersonID" Type="int" Nullable="false" />
+    <Property Name="AddressID" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_tblStudent_tblAddress">
+    <End Role="tblAddress" Type="TestModel.Store.tblAddress" Multiplicity="1" />
+    <End Role="tblStudent" Type="TestModel.Store.tblStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblAddress">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tblStudent">
+        <PropertyRef Name="AddressID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

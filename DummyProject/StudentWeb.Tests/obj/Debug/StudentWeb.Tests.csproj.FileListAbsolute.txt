@@ -1,0 +1,8 @@
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb.Tests\obj\Debug\StudentWeb.Tests.csprojResolveAssemblyReference.cache
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb.Tests\bin\Debug\StudentWeb.Tests.dll.config
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb.Tests\bin\Debug\StudentWeb.Tests.dll
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb.Tests\bin\Debug\StudentWeb.Tests.pdb
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb.Tests\bin\Debug\StudentWeb.dll
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb.Tests\bin\Debug\StudentWeb.pdb
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb.Tests\obj\Debug\StudentWeb.Tests.dll
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb.Tests\obj\Debug\StudentWeb.Tests.pdb

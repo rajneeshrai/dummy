@@ -1,0 +1,5 @@
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb\bin\StudentWeb.dll
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb\bin\StudentWeb.pdb
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb\obj\Debug\StudentWeb.csprojResolveAssemblyReference.cache
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb\obj\Debug\StudentWeb.dll
+c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\StudentWeb\obj\Debug\StudentWeb.pdb
