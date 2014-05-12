@@ -1,4 +1,0 @@
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\RESTStudentService\bin\RESTStudentService.dll
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\RESTStudentService\bin\RESTStudentService.pdb
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\RESTStudentService\obj\Debug\RESTStudentService.dll
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\RESTStudentService\obj\Debug\RESTStudentService.pdb

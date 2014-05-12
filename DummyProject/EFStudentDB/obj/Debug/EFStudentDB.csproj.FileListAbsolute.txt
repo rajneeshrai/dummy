@@ -1,5 +1,0 @@
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\EFStudentDB\bin\Debug\EFStudentDB.dll.config
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\EFStudentDB\bin\Debug\EFStudentDB.dll
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\EFStudentDB\bin\Debug\EFStudentDB.pdb
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\EFStudentDB\obj\Debug\EFStudentDB.dll
-c:\users\rajneesh.rai\documents\visual studio 2010\Projects\DummyProject\EFStudentDB\obj\Debug\EFStudentDB.pdb
