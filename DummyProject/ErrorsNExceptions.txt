@@ -1,0 +1,21 @@
+1.	The specified named connection is either not found in the configuration, not intended to be used with the EntityClient provider, or not valid. in the EntityFramwork
+database class library.
+=> This problem was solved by adding class libraries connection string to the web project
+===========================================================================================================================
+
+2. This property can not be set to a null value
+=> because the column was non nullable coulumn
+=====================================================================================================
+3.	LINQ to Entities does not recognize the method 'System.String ToString()' method, and this method cannot be translated into a store expression.
+
+==================================================================================
+4. The model item passed into the dictionary is of type 'System.Collections.Generic.List`1[Models.DomainModel.Student]', but this dictionary requires a model item of type 'System.Collections.Generic.List`1[StudentWeb.Models.View.Student]'.
+
+========================================================================================================
+5. Operation 'AddStudent' in contract 'IStudentService' has a path variable named 'student' which does not have type 'string'.  Variables for UriTemplate path segments must have type 'string'.
+
+=======================================================================================================
+6. Operation 'AddStudent' in contract 'IStudentService' has a query variable named 'student' of type 'Models.DomainModel.Student', but type 'Models.DomainModel.Student' is not convertible by 'QueryStringConverter'.  Variables for UriTemplate query values must have types that can be converted by 'QueryStringConverter'.
+
+=======================================================================================================
+7.	Endpoints using 'UriTemplate' cannot be used with 'System.ServiceModel.Description.WebScriptEnablingBehavior'.

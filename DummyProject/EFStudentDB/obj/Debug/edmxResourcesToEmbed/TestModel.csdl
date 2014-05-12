@@ -1,28 +1,89 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TestModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
   <EntityContainer Name="TestEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Classes" EntityType="TestModel.Class" />
+    <EntitySet Name="EMPLOYEEs" EntityType="TestModel.EMPLOYEE" />
+    <EntitySet Name="IMAGES" EntityType="TestModel.IMAGE" />
+    <EntitySet Name="Students" EntityType="TestModel.Student" />
     <EntitySet Name="tblAddresses" EntityType="TestModel.tblAddress" />
     <EntitySet Name="tblClasses" EntityType="TestModel.tblClass" />
     <EntitySet Name="tblLocations" EntityType="TestModel.tblLocation" />
     <EntitySet Name="tblPersons" EntityType="TestModel.tblPerson" />
     <EntitySet Name="tblStudents" EntityType="TestModel.tblStudent" />
+    <AssociationSet Name="FK_Student_Class" Association="TestModel.FK_Student_Class">
+      <End Role="Class" EntitySet="Classes" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EMPLOYEE_IMAGES" Association="TestModel.FK_EMPLOYEE_IMAGES">
+      <End Role="IMAGE" EntitySet="IMAGES" />
+      <End Role="EMPLOYEE" EntitySet="EMPLOYEEs" />
+    </AssociationSet>
     <AssociationSet Name="FK_tblStudent_tblAddress" Association="TestModel.FK_tblStudent_tblAddress">
       <End Role="tblAddress" EntitySet="tblAddresses" />
       <End Role="tblStudent" EntitySet="tblStudents" />
     </AssociationSet>
+    <AssociationSet Name="FK_tblStudent_tblPerson" Association="TestModel.FK_tblStudent_tblPerson">
+      <End Role="tblPerson" EntitySet="tblPersons" />
+      <End Role="tblStudent" EntitySet="tblStudents" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="UID" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <Property Type="Boolean" Name="Active" Nullable="false" />
+    <NavigationProperty Name="Students" Relationship="TestModel.FK_Student_Class" FromRole="Class" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="EMPLOYEE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="NAME" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="DEPARTMENT" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="PhotoID" Nullable="false" />
+    <NavigationProperty Name="IMAGE" Relationship="TestModel.FK_EMPLOYEE_IMAGES" FromRole="EMPLOYEE" ToRole="IMAGE" />
+  </EntityType>
+  <EntityType Name="IMAGE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="NAME" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="SIZE" />
+    <Property Type="String" Name="URL" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="CREATEDDATE" />
+    <NavigationProperty Name="EMPLOYEE" Relationship="TestModel.FK_EMPLOYEE_IMAGES" FromRole="IMAGE" ToRole="EMPLOYEE" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="RollNo" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="FatherName" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Type="Int32" Name="Class" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <Property Type="Boolean" Name="Active" Nullable="false" />
+    <NavigationProperty Name="Class1" Relationship="TestModel.FK_Student_Class" FromRole="Student" ToRole="Class" />
+  </EntityType>
   <EntityType Name="tblAddress">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="HouseNo" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="Locality" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="City" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="District" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="State" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="HouseNo" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="Locality" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="District" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="tblStudents" Relationship="TestModel.FK_tblStudent_tblAddress" FromRole="tblAddress" ToRole="tblStudent" />
   </EntityType>
   <EntityType Name="tblClass">
@@ -33,59 +94,97 @@
       <PropertyRef Name="CreatedBy" />
       <PropertyRef Name="Active" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="Active" Nullable="false" />
   </EntityType>
   <EntityType Name="tblLocation">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="Code" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="ParentID" Type="Int32" />
-    <Property Name="Type" Type="Int32" Nullable="false" />
-    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Code" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="Int32" Name="ParentID" />
+    <Property Type="Int32" Name="Type" Nullable="false" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
   </EntityType>
   <EntityType Name="tblPerson">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="FatherName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="MotherName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="Age" Type="Int32" Nullable="false" />
-    <Property Name="Gender" Type="Int32" Nullable="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FatherName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="MotherName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Age" Nullable="false" />
+    <Property Type="Int32" Name="Gender" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="Active" Nullable="false" />
+    <NavigationProperty Name="tblStudents" Relationship="TestModel.FK_tblStudent_tblPerson" FromRole="tblPerson" ToRole="tblStudent" />
   </EntityType>
   <EntityType Name="tblStudent">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PersonID" Type="Int32" Nullable="false" />
-    <Property Name="AddressID" Type="Int32" Nullable="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="PersonID" Nullable="false" />
+    <Property Type="Int32" Name="AddressID" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="Active" Nullable="false" />
     <NavigationProperty Name="tblAddress" Relationship="TestModel.FK_tblStudent_tblAddress" FromRole="tblStudent" ToRole="tblAddress" />
+    <NavigationProperty Name="tblPerson" Relationship="TestModel.FK_tblStudent_tblPerson" FromRole="tblStudent" ToRole="tblPerson" />
   </EntityType>
+  <Association Name="FK_Student_Class">
+    <End Type="TestModel.Class" Role="Class" Multiplicity="1" />
+    <End Type="TestModel.Student" Role="Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="Class" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EMPLOYEE_IMAGES">
+    <End Type="TestModel.IMAGE" Role="IMAGE" Multiplicity="1" />
+    <End Type="TestModel.EMPLOYEE" Role="EMPLOYEE" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="IMAGE">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EMPLOYEE">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tblStudent_tblAddress">
-    <End Role="tblAddress" Type="TestModel.tblAddress" Multiplicity="1" />
-    <End Role="tblStudent" Type="TestModel.tblStudent" Multiplicity="*" />
+    <End Type="TestModel.tblAddress" Role="tblAddress" Multiplicity="1" />
+    <End Type="TestModel.tblStudent" Role="tblStudent" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tblAddress">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="tblStudent">
         <PropertyRef Name="AddressID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblStudent_tblPerson">
+    <End Type="TestModel.tblPerson" Role="tblPerson" Multiplicity="1" />
+    <End Type="TestModel.tblStudent" Role="tblStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPerson">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tblStudent">
+        <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

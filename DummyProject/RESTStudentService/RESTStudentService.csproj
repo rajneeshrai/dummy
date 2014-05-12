@@ -62,7 +62,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface1.cs" />
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
@@ -70,7 +69,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <ProjectReference Include="..\EFStudentDB\EFStudentDB.csproj">
+      <Project>{A07B73DE-C021-4848-AD4E-BDA0A1E6456F}</Project>
+      <Name>EFStudentDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Models.csproj">
+      <Project>{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

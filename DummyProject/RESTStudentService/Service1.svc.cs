@@ -5,28 +5,62 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Runtime.Serialization.Json;
 
 namespace RESTStudentService
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
-    public class Service1 : IService1
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "StudentService" in code, svc and config file together.
+    public class StudentService : IStudentService
     {
-        public string GetData(int value)
+
+        public List<Models.DomainModel.Student> GetAllStudents()
         {
-            return string.Format("You entered: {0}", value);
+            try
+            {
+                return EFStudentDB.Business.Student.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException(ex.Message);
+            }
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
+        public Models.DomainModel.Student GetStudent(string id)
         {
-            if (composite == null)
+            try
             {
-                throw new ArgumentNullException("composite");
+                return EFStudentDB.Business.Student.Get(Convert.ToInt32(id));
             }
-            if (composite.BoolValue)
+            catch (Exception ex)
             {
-                composite.StringValue += "Suffix";
+                throw new FaultException(ex.Message);
             }
-            return composite;
+        }
+
+        public int AddStudent(string student)
+        {
+            try
+            {
+                System.Web.Script.Serialization.JavaScriptSerializer jscript = new System.Web.Script.Serialization.JavaScriptSerializer();
+                Models.DomainModel.Student objStudent = jscript.Deserialize<Models.DomainModel.Student>(student);
+                return EFStudentDB.Business.Student.Add(objStudent);
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException(ex.Message);
+            }
+        }
+
+        public bool DeleteStudent(string id)
+        {
+            try
+            {
+                return EFStudentDB.Business.Student.Delete(Convert.ToInt32(id));
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException(ex.Message);
+            }
         }
     }
 }

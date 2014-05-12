@@ -7,5 +7,6 @@ namespace RESTStudentService
 {
     interface Interface1
     {
+        string GetData(int value);
     }
 }

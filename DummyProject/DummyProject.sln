@@ -9,6 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentWeb", "StudentWeb\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentWeb.Tests", "StudentWeb.Tests\StudentWeb.Tests.csproj", "{5E374E99-D660-4905-85E7-C001A7085AE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Model\Models.csproj", "{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{66C8D773-5EDD-4F6F-9914-92A133DA41AB}"
+	ProjectSection(SolutionItems) = preProject
+		ErrorsNExceptions.txt = ErrorsNExceptions.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +66,16 @@ Global
 		{5E374E99-D660-4905-85E7-C001A7085AE4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5E374E99-D660-4905-85E7-C001A7085AE4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5E374E99-D660-4905-85E7-C001A7085AE4}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6B7BF6F7-EAE4-4A37-93B9-F7414BC70EFC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

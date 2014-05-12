@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace StudentWeb.Models.Domain
 {
@@ -67,18 +68,27 @@ namespace StudentWeb.Models.View
 
     public class Person
     {
+        [Key]
         public int ID { get; set; }
 
         [DisplayName("Name")]
+        [Required(ErrorMessage = "Required field", AllowEmptyStrings = false)]
         public string Name { get; set; }
 
         [DisplayName("Father's Name")]
+        [Required(ErrorMessage = "Required field")]
         public string FatherName { get; set; }
 
+        [DisplayName("Mother's Name")]
+        [Required(ErrorMessage = "Required field")]
         public string MotherName { get; set; }
 
+        [DisplayName("Age")]
+        [Required(ErrorMessage = "Required field")]
         public int Age { get; set; }
 
+        [DisplayName("Gender")]
+        [Required(ErrorMessage = "Required field")]
         public string Gender { get; set; }
 
         public DateTime CreatedDate { get; set; }

@@ -4,8 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TestModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="TestModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="TestModelStoreContainer">
+          <EntitySet Name="Class" EntityType="TestModel.Store.Class" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EMPLOYEE" EntityType="TestModel.Store.EMPLOYEE" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="IMAGES" EntityType="TestModel.Store.IMAGES" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Student" EntityType="TestModel.Store.Student" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="tblAddress" EntityType="TestModel.Store.tblAddress" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="tblClass" EntityType="TestModel.Store.tblClass" store:Type="Tables" store:Schema="dbo" store:Name="tblClass">
             <DefiningQuery>SELECT 
@@ -19,11 +23,64 @@
           <EntitySet Name="tblLocation" EntityType="TestModel.Store.tblLocation" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="tblPerson" EntityType="TestModel.Store.tblPerson" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="tblStudent" EntityType="TestModel.Store.tblStudent" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_EMPLOYEE_IMAGES" Association="TestModel.Store.FK_EMPLOYEE_IMAGES">
+            <End Role="IMAGES" EntitySet="IMAGES" />
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Class" Association="TestModel.Store.FK_Student_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblStudent_tblAddress" Association="TestModel.Store.FK_tblStudent_tblAddress">
             <End Role="tblAddress" EntitySet="tblAddress" />
             <End Role="tblStudent" EntitySet="tblStudent" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblStudent_tblPerson" Association="TestModel.Store.FK_tblStudent_tblPerson">
+            <End Role="tblPerson" EntitySet="tblPerson" />
+            <End Role="tblStudent" EntitySet="tblStudent" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UID" Type="nchar" Nullable="false" MaxLength="20" />
+          <Property Name="Name" Type="nchar" Nullable="false" MaxLength="20" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="varchar" MaxLength="50" />
+          <Property Name="DEPARTMENT" Type="varchar" MaxLength="50" />
+          <Property Name="PhotoID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IMAGES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="varchar" MaxLength="100" />
+          <Property Name="SIZE" Type="int" />
+          <Property Name="URL" Type="varchar" MaxLength="256" />
+          <Property Name="CREATEDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RollNo" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="Name" Type="nchar" Nullable="false" MaxLength="50" />
+          <Property Name="FatherName" Type="nchar" Nullable="false" MaxLength="50" />
+          <Property Name="Class" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblAddress">
           <Key>
             <PropertyRef Name="ID" />
@@ -38,7 +95,7 @@
           <Property Name="CreatedBy" Type="nchar" Nullable="false" MaxLength="10" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'Test.dbo.tblClass' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TestNew.dbo.tblClass' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="tblClass">
           <Key>
@@ -91,6 +148,30 @@
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_EMPLOYEE_IMAGES">
+          <End Role="IMAGES" Type="TestModel.Store.IMAGES" Multiplicity="1" />
+          <End Role="EMPLOYEE" Type="TestModel.Store.EMPLOYEE" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="IMAGES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EMPLOYEE">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Class">
+          <End Role="Class" Type="TestModel.Store.Class" Multiplicity="1" />
+          <End Role="Student" Type="TestModel.Store.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="Class" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblStudent_tblAddress">
           <End Role="tblAddress" Type="TestModel.Store.tblAddress" Multiplicity="1" />
           <End Role="tblStudent" Type="TestModel.Store.tblStudent" Multiplicity="*" />
@@ -103,34 +184,106 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+        <Association Name="FK_tblStudent_tblPerson">
+          <End Role="tblPerson" Type="TestModel.Store.tblPerson" Multiplicity="1" />
+          <End Role="tblStudent" Type="TestModel.Store.tblStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPerson">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblStudent">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TestModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="TestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Classes" EntityType="TestModel.Class" />
+          <EntitySet Name="EMPLOYEEs" EntityType="TestModel.EMPLOYEE" />
+          <EntitySet Name="IMAGES" EntityType="TestModel.IMAGE" />
+          <EntitySet Name="Students" EntityType="TestModel.Student" />
           <EntitySet Name="tblAddresses" EntityType="TestModel.tblAddress" />
           <EntitySet Name="tblClasses" EntityType="TestModel.tblClass" />
           <EntitySet Name="tblLocations" EntityType="TestModel.tblLocation" />
           <EntitySet Name="tblPersons" EntityType="TestModel.tblPerson" />
           <EntitySet Name="tblStudents" EntityType="TestModel.tblStudent" />
+          <AssociationSet Name="FK_Student_Class" Association="TestModel.FK_Student_Class">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLOYEE_IMAGES" Association="TestModel.FK_EMPLOYEE_IMAGES">
+            <End Role="IMAGE" EntitySet="IMAGES" />
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEEs" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblStudent_tblAddress" Association="TestModel.FK_tblStudent_tblAddress">
             <End Role="tblAddress" EntitySet="tblAddresses" />
             <End Role="tblStudent" EntitySet="tblStudents" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblStudent_tblPerson" Association="TestModel.FK_tblStudent_tblPerson">
+            <End Role="tblPerson" EntitySet="tblPersons" />
+            <End Role="tblStudent" EntitySet="tblStudents" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UID" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <NavigationProperty Name="Students" Relationship="TestModel.FK_Student_Class" FromRole="Class" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="NAME" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DEPARTMENT" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="PhotoID" Nullable="false" />
+          <NavigationProperty Name="IMAGE" Relationship="TestModel.FK_EMPLOYEE_IMAGES" FromRole="EMPLOYEE" ToRole="IMAGE" />
+        </EntityType>
+        <EntityType Name="IMAGE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="NAME" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="SIZE" />
+          <Property Type="String" Name="URL" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CREATEDDATE" />
+          <NavigationProperty Name="EMPLOYEE" Relationship="TestModel.FK_EMPLOYEE_IMAGES" FromRole="IMAGE" ToRole="EMPLOYEE" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="RollNo" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="FatherName" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Type="Int32" Name="Class" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <NavigationProperty Name="Class1" Relationship="TestModel.FK_Student_Class" FromRole="Student" ToRole="Class" />
+        </EntityType>
         <EntityType Name="tblAddress">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HouseNo" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="Locality" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="City" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="District" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="State" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="HouseNo" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="Locality" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="District" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="tblStudents" Relationship="TestModel.FK_tblStudent_tblAddress" FromRole="tblAddress" ToRole="tblStudent" />
         </EntityType>
         <EntityType Name="tblClass">
@@ -141,53 +294,79 @@
             <PropertyRef Name="CreatedBy" />
             <PropertyRef Name="Active" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
         </EntityType>
         <EntityType Name="tblLocation">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="ParentID" Type="Int32" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="Int32" Name="ParentID" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
         </EntityType>
         <EntityType Name="tblPerson">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="FatherName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="MotherName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="Age" Type="Int32" Nullable="false" />
-          <Property Name="Gender" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FatherName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MotherName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Age" Nullable="false" />
+          <Property Type="Int32" Name="Gender" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <NavigationProperty Name="tblStudents" Relationship="TestModel.FK_tblStudent_tblPerson" FromRole="tblPerson" ToRole="tblStudent" />
         </EntityType>
         <EntityType Name="tblStudent">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PersonID" Type="Int32" Nullable="false" />
-          <Property Name="AddressID" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PersonID" Nullable="false" />
+          <Property Type="Int32" Name="AddressID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
           <NavigationProperty Name="tblAddress" Relationship="TestModel.FK_tblStudent_tblAddress" FromRole="tblStudent" ToRole="tblAddress" />
+          <NavigationProperty Name="tblPerson" Relationship="TestModel.FK_tblStudent_tblPerson" FromRole="tblStudent" ToRole="tblPerson" />
         </EntityType>
+        <Association Name="FK_Student_Class">
+          <End Type="TestModel.Class" Role="Class" Multiplicity="1" />
+          <End Type="TestModel.Student" Role="Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="Class" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLOYEE_IMAGES">
+          <End Type="TestModel.IMAGE" Role="IMAGE" Multiplicity="1" />
+          <End Type="TestModel.EMPLOYEE" Role="EMPLOYEE" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="IMAGE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EMPLOYEE">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblStudent_tblAddress">
-          <End Role="tblAddress" Type="TestModel.tblAddress" Multiplicity="1" />
-          <End Role="tblStudent" Type="TestModel.tblStudent" Multiplicity="*" />
+          <End Type="TestModel.tblAddress" Role="tblAddress" Multiplicity="1" />
+          <End Type="TestModel.tblStudent" Role="tblStudent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tblAddress">
               <PropertyRef Name="ID" />
@@ -197,74 +376,131 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_tblStudent_tblPerson">
+          <End Type="TestModel.tblPerson" Role="tblPerson" Multiplicity="1" />
+          <End Type="TestModel.tblStudent" Role="tblStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPerson">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblStudent">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TestEntities">
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="TestModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLOYEEs">
+            <EntityTypeMapping TypeName="TestModel.EMPLOYEE">
+              <MappingFragment StoreEntitySet="EMPLOYEE">
+                <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
+                <ScalarProperty Name="DEPARTMENT" ColumnName="DEPARTMENT" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IMAGES">
+            <EntityTypeMapping TypeName="TestModel.IMAGE">
+              <MappingFragment StoreEntitySet="IMAGES">
+                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="SIZE" ColumnName="SIZE" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="TestModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RollNo" ColumnName="RollNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblAddresses">
             <EntityTypeMapping TypeName="TestModel.tblAddress">
               <MappingFragment StoreEntitySet="tblAddress">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="HouseNo" ColumnName="HouseNo" />
-                <ScalarProperty Name="Locality" ColumnName="Locality" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="District" ColumnName="District" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Locality" ColumnName="Locality" />
+                <ScalarProperty Name="HouseNo" ColumnName="HouseNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblClasses">
             <EntityTypeMapping TypeName="TestModel.tblClass">
               <MappingFragment StoreEntitySet="tblClass">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblLocations">
             <EntityTypeMapping TypeName="TestModel.tblLocation">
               <MappingFragment StoreEntitySet="tblLocation">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblPersons">
             <EntityTypeMapping TypeName="TestModel.tblPerson">
               <MappingFragment StoreEntitySet="tblPerson">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
-                <ScalarProperty Name="MotherName" ColumnName="MotherName" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="MotherName" ColumnName="MotherName" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblStudents">
             <EntityTypeMapping TypeName="TestModel.tblStudent">
               <MappingFragment StoreEntitySet="tblStudent">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
-                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -289,14 +525,34 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="TestModel">
-        <EntityTypeShape EntityType="TestModel.tblAddress" Width="1.5" PointX="0.75" PointY="1" Height="2.7494921874999996" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestModel.tblClass" Width="1.5" PointX="0.75" PointY="4.75" Height="1.9802864583333335" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestModel.tblLocation" Width="1.5" PointX="2.75" PointY="4.75" Height="2.3648893229166656" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestModel.tblPerson" Width="1.5" PointX="4.75" PointY="4.75" Height="2.7494921874999996" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestModel.tblStudent" Width="1.5" PointX="3" PointY="1.125" Height="2.3648893229166656" IsExpanded="true" />
-        <AssociationConnector Association="TestModel.FK_tblStudent_tblAddress" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="2.3074446614583328" />
-          <ConnectorPoint PointX="3" PointY="2.3074446614583328" />
+        <EntityTypeShape EntityType="TestModel.Class" Width="1.5" PointX="0.75" PointY="5.125" Height="2.1725878906250031" />
+        <EntityTypeShape EntityType="TestModel.EMPLOYEE" Width="1.5" PointX="8" PointY="1" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="TestModel.IMAGE" Width="1.5" PointX="5.75" PointY="0.875" Height="2.1725878906250031" />
+        <EntityTypeShape EntityType="TestModel.Student" Width="1.5" PointX="3" PointY="5" Height="2.5571907552083388" />
+        <EntityTypeShape EntityType="TestModel.tblAddress" Width="1.5" PointX="0.75" PointY="1" Height="2.7494921875000031" />
+        <EntityTypeShape EntityType="TestModel.tblClass" Width="1.5" PointX="5.75" PointY="4.75" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="TestModel.tblLocation" Width="1.5" PointX="7.75" PointY="4.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="TestModel.tblPerson" Width="1.5" PointX="0.75" PointY="8.75" Height="2.7494921875000031" />
+        <EntityTypeShape EntityType="TestModel.tblStudent" Width="1.5" PointX="3" PointY="1.125" Height="2.3648893229166674" />
+        <AssociationConnector Association="TestModel.FK_Student_Class" >
+          <ConnectorPoint PointX="2.25" PointY="6.2112939453125016" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="6.2112939453125007" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="6.2112939453125016" />
+          <ConnectorPoint PointX="3" PointY="6.2112939453125016" />
+        </AssociationConnector>
+        <AssociationConnector Association="TestModel.FK_EMPLOYEE_IMAGES" >
+          <ConnectorPoint PointX="7.25" PointY="1.9901432291666694" />
+          <ConnectorPoint PointX="8" PointY="1.9901432291666694" />
+        </AssociationConnector>
+        <AssociationConnector Association="TestModel.FK_tblStudent_tblAddress" >
+          <ConnectorPoint PointX="2.25" PointY="2.4035953776041667" />
+          <ConnectorPoint PointX="3" PointY="2.4035953776041667" />
+        </AssociationConnector>
+        <AssociationConnector Association="TestModel.FK_tblStudent_tblPerson" >
+          <ConnectorPoint PointX="2.25" PointY="8.7511528461538468" />
+          <ConnectorPoint PointX="2.625" PointY="8.3761528461538468" />
+          <ConnectorPoint PointX="2.625" PointY="3.0741450664062437" />
+          <ConnectorPoint PointX="3" PointY="3.0741450664062437" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

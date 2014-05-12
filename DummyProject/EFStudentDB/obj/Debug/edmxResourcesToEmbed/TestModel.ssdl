@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TestModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="TestModelStoreContainer">
+    <EntitySet Name="Class" EntityType="TestModel.Store.Class" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EMPLOYEE" EntityType="TestModel.Store.EMPLOYEE" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IMAGES" EntityType="TestModel.Store.IMAGES" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Student" EntityType="TestModel.Store.Student" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="tblAddress" EntityType="TestModel.Store.tblAddress" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="tblClass" EntityType="TestModel.Store.tblClass" store:Type="Tables" store:Schema="dbo" store:Name="tblClass">
       <DefiningQuery>SELECT 
@@ -14,11 +18,64 @@
     <EntitySet Name="tblLocation" EntityType="TestModel.Store.tblLocation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="tblPerson" EntityType="TestModel.Store.tblPerson" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="tblStudent" EntityType="TestModel.Store.tblStudent" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_EMPLOYEE_IMAGES" Association="TestModel.Store.FK_EMPLOYEE_IMAGES">
+      <End Role="IMAGES" EntitySet="IMAGES" />
+      <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Class" Association="TestModel.Store.FK_Student_Class">
+      <End Role="Class" EntitySet="Class" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
     <AssociationSet Name="FK_tblStudent_tblAddress" Association="TestModel.Store.FK_tblStudent_tblAddress">
       <End Role="tblAddress" EntitySet="tblAddress" />
       <End Role="tblStudent" EntitySet="tblStudent" />
     </AssociationSet>
+    <AssociationSet Name="FK_tblStudent_tblPerson" Association="TestModel.Store.FK_tblStudent_tblPerson">
+      <End Role="tblPerson" EntitySet="tblPerson" />
+      <End Role="tblStudent" EntitySet="tblStudent" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UID" Type="nchar" Nullable="false" MaxLength="20" />
+    <Property Name="Name" Type="nchar" Nullable="false" MaxLength="20" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EMPLOYEE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="NAME" Type="varchar" MaxLength="50" />
+    <Property Name="DEPARTMENT" Type="varchar" MaxLength="50" />
+    <Property Name="PhotoID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMAGES">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="NAME" Type="varchar" MaxLength="100" />
+    <Property Name="SIZE" Type="int" />
+    <Property Name="URL" Type="varchar" MaxLength="256" />
+    <Property Name="CREATEDDATE" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RollNo" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="Name" Type="nchar" Nullable="false" MaxLength="50" />
+    <Property Name="FatherName" Type="nchar" Nullable="false" MaxLength="50" />
+    <Property Name="Class" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+  </EntityType>
   <EntityType Name="tblAddress">
     <Key>
       <PropertyRef Name="ID" />
@@ -33,7 +90,7 @@
     <Property Name="CreatedBy" Type="nchar" Nullable="false" MaxLength="10" />
   </EntityType>
   <!--Errors Found During Generation:
-      warning 6002: The table/view 'Test.dbo.tblClass' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'TestNew.dbo.tblClass' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
   <EntityType Name="tblClass">
     <Key>
@@ -86,6 +143,30 @@
     <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
     <Property Name="Active" Type="bit" Nullable="false" />
   </EntityType>
+  <Association Name="FK_EMPLOYEE_IMAGES">
+    <End Role="IMAGES" Type="TestModel.Store.IMAGES" Multiplicity="1" />
+    <End Role="EMPLOYEE" Type="TestModel.Store.EMPLOYEE" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="IMAGES">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EMPLOYEE">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Class">
+    <End Role="Class" Type="TestModel.Store.Class" Multiplicity="1" />
+    <End Role="Student" Type="TestModel.Store.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="Class" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tblStudent_tblAddress">
     <End Role="tblAddress" Type="TestModel.Store.tblAddress" Multiplicity="1" />
     <End Role="tblStudent" Type="TestModel.Store.tblStudent" Multiplicity="*" />
@@ -95,6 +176,18 @@
       </Principal>
       <Dependent Role="tblStudent">
         <PropertyRef Name="AddressID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblStudent_tblPerson">
+    <End Role="tblPerson" Type="TestModel.Store.tblPerson" Multiplicity="1" />
+    <End Role="tblStudent" Type="TestModel.Store.tblStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPerson">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="tblStudent">
+        <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
